@@ -1,0 +1,57 @@
+# Import packages
+from imageai.Detection import VideoObjectDetection
+import os
+def forFrame(frame_number, output_array, output_count, detected_copy):
+    print("FOR FRAME " , frame_number)
+#    print("Output for each object : ", output_array)
+    print("Output count for unique objects : ", output_count)
+    print("------------END OF A FRAME --------------")
+
+def forSeconds(second_number, output_arrays, count_arrays, average_output_count, detected_copy):
+    print("SECOND : ", second_number)
+#    print("Array for the outputs of each frame ", output_arrays)
+    print("Array for output count for unique objects in each frame : ", count_arrays)
+    print("Output average count for unique objects in the last second: ", average_output_count)
+    print("------------END OF A SECOND --------------")
+
+def forMinute(minute_number, output_arrays, count_arrays, average_output_count, detected_copy):
+    print("MINUTE : ", minute_number)
+#    print("Array for the outputs of each frame ", output_arrays)
+    print("Array for output count for unique objects in each frame : ", count_arrays)
+    print("Output average count for unique objects in the last minute: ", average_output_count)
+    print("------------END OF A MINUTE --------------")
+# Path to execute
+yolo_path = 'TinyYOLOv3_Model/'
+video_path = 'Video/'
+execution_path = os.getcwd()
+execution_path
+video_path 
+use_video = "traffic.mp4"
+# Model to Use
+use_model = "yolo-tiny.h5"
+
+analisys_video = "detected_" + use_video
+
+detector = VideoObjectDetection()
+
+# Iniciate model
+#detector.setModelTypeAsYOLOv3()      # To YOLOv3 model
+#detector.setModelTypeAsRetinaNet()   # To Retinanet model
+detector.setModelTypeAsTinyYOLOv3()   # To TinyYOLOv3 model
+
+detector.setModelPath( os.path.join(yolo_path , use_model))
+detector.loadModel()
+
+vid_path = detector.detectObjectsFromVideo(input_file_path=os.path.join( video_path, use_video),
+                                           output_file_path=os.path.join(video_path, analisys_video),
+                                           frames_per_second=20,
+                                 #          per_second_function = forSeconds,
+                                           per_frame_function = forFrame,
+                                 #          per_minute_function= forMinute,
+                                           minimum_percentage_probability=30,
+                                           log_progress=True,
+                                           return_detected_frame=True)
+                                           
+ 
+print(vid_path)
+ print('Finished...')
